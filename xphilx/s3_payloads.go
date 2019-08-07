@@ -31,6 +31,10 @@ func consumePayloads(cfg Config, uploader *s3manager.Uploader, payloadCh chan []
 		case payload := <-payloadCh:
 			fmt.Println("Payload recieved:", string(payload))
 
+			if payload[len(payload)-1] != '\n' {
+				payload = append(payload, byte('\n'))
+			}
+
 			retry(defaultRetries, defaultPeriod, func() (err error) {
 				if _, err = f.Write(payload); err != nil {
 					fmt.Println("Failed writing payload to tmp file")
