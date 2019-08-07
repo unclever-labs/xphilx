@@ -13,8 +13,22 @@ Exfiltrate layer 7 payloads to S3 from a running server
 
 ## Usage
 
+Open a new terminal and run:
+
 ```bash
-sudo go run main.go -i lo0 -b s3://fake-bucket/
+./terminal-1.sh
+```
+
+Open a new terminal and run:
+
+```bash
+./terminal-2.sh
+```
+
+Open a new terminal and run:
+
+```bash
+./terminal-3.sh
 ```
 
 ## Credits

@@ -33,12 +33,6 @@ func init() {
 
 	setFlagsFromEnv(rootCmd)
 	setPFlagsFromEnv(rootCmd)
-
-	// 	var iface = flag.String("i", "eth0", "Interface to get packets from")
-	// var fname = flag.String("r", "", "Filename to read from, overrides -i")
-	// var snaplen = flag.Int("s", 1600, "SnapLen for pcap packet capture")
-	// var filter = flag.String("f", "tcp and dst port 80", "BPF filter for pcap")
-	// var logAllPackets = flag.Bool("v", false, "Logs every packet in great detail")
 }
 
 func setPFlagsFromEnv(cmd *cobra.Command) {
