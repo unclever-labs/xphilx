@@ -45,6 +45,10 @@ func Run(cfg Config) {
 
 	// Create s3 uploader
 	uploader := s3manager.NewUploader(session.Must(session.NewSession()))
+	if err = testUpload(cfg, uploader); err != nil {
+		fmt.Println("Failed testing s3 upload:", err)
+		return
+	}
 
 	// Setup payload consumer
 	payloadCh := make(chan []byte)

@@ -1,6 +1,7 @@
 package xphilx
 
 import (
+	"bytes"
 	"fmt"
 	"os"
 	"strings"
@@ -18,7 +19,7 @@ func s3Upload(uploader *s3manager.Uploader, fileName, s3BucketPath string, clean
 			return
 		}
 
-		bucket, key := getBucketKey(s3BucketPath)
+		bucket, key := getBucketKey(s3BucketPath, false)
 		uploadInput := s3manager.UploadInput{
 			Body:   f,
 			Bucket: aws.String(bucket),
@@ -36,19 +37,39 @@ func s3Upload(uploader *s3manager.Uploader, fileName, s3BucketPath string, clean
 	})
 }
 
-func getBucketKey(s3BucketPath string) (bucket, key string) {
+func getBucketKey(s3BucketPath string, test bool) (bucket, key string) {
 	s3BucketPath = strings.Replace(s3BucketPath, "s3://", "", -1)
 	parts := strings.Split(s3BucketPath, "/")
 
-	bucket = parts[0]
-	keyPrefix := strings.Join(parts[1:], "/")
+	bucket = strings.TrimSuffix(parts[0], "/")
+	keyPrefix := strings.TrimSuffix(strings.Join(parts[1:], "/"), "/")
 
 	now := time.Now().UTC()
+	dateStr := now.Format("2006/01/02")
 	timeStr := now.Format("payload-03-04-05.log")
 
-	year, monthStr, day := now.Date()
-	month := int(monthStr)
+	key = strings.TrimPrefix(fmt.Sprintf("%s/%s/%s", keyPrefix, dateStr, timeStr), "/")
+	if test {
+		key = strings.TrimPrefix(fmt.Sprintf("%s/test.log", keyPrefix), "/")
+	}
+	return
+}
 
-	key = fmt.Sprintf("%s/%d/%d/%d/%s", keyPrefix, year, month, day, timeStr)
+func testUpload(cfg Config, uploader *s3manager.Uploader) (err error) {
+	buf := bytes.NewBufferString(`{"msg":"test string"}`)
+
+	bucket, key := getBucketKey(cfg.S3BucketPath, true)
+	in := &s3manager.UploadInput{
+		Body:   buf,
+		Bucket: aws.String(bucket),
+		Key:    aws.String(key),
+	}
+
+	fmt.Printf("Testing upload of %s/%s\n", bucket, key)
+	if _, err = uploader.Upload(in); err != nil {
+		fmt.Println("Failed test upload")
+		return
+	}
+
 	return
 }

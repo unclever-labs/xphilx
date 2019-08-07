@@ -3,7 +3,6 @@ package xphilx
 import (
 	"errors"
 	"fmt"
-	"os"
 	"strings"
 
 	"gopkg.in/go-playground/validator.v9"
@@ -31,20 +30,6 @@ func validateConfig(cfg Config) (err error) {
 
 	if len(strings.TrimSpace(strings.Replace(cfg.S3BucketPath, "s3://", "", -1))) == 0 {
 		err = errors.New("config s3bucketpath does not specify a bucket")
-		return
-	}
-
-	foundRegion := false
-	for _, env := range os.Environ() {
-		env := strings.ToLower(strings.Replace(env, "_", "-", -1))
-		if strings.Contains(env, "aws-region") || strings.Contains(env, "aws-default-region") {
-			foundRegion = true
-			break
-		}
-	}
-
-	if !foundRegion {
-		err = errors.New("AWS_REGION || AWS_DEFAULT_REGION not in environment")
 		return
 	}
 
