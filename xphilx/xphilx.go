@@ -5,10 +5,18 @@ import (
 	"log"
 	"time"
 
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"github.com/google/gopacket/pcap"
 	"github.com/google/gopacket/tcpassembly"
+)
+
+// TODO: move these to actual config
+var (
+	defaultRetries = 3
+	defaultPeriod  = time.Duration(1 * time.Second)
 )
 
 // Run starts the exporter
@@ -35,9 +43,12 @@ func Run(cfg Config) {
 		return
 	}
 
+	// Create s3 uploader
+	uploader := s3manager.NewUploader(session.Must(session.NewSession()))
+
 	// Setup payload consumer
 	payloadCh := make(chan []byte)
-	go sendPayloadsToS3(payloadCh)
+	go consumePayloads(cfg, uploader, payloadCh)
 
 	// Set up assembly
 	streamFactory := &httpStreamFactory{
