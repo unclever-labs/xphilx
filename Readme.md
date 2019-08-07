@@ -1,6 +1,6 @@
 # xPHILx
 
-![xPHILx](xphilx.jpg)
+![xPHILx](xphilx.jpg | width=375)
 
 ## Introduction
 
