@@ -1,6 +1,6 @@
 # xPHILx
 
-<img src="https://raw.githubusercontent.com/unclever-labs/xphilx/master/xphilx.jpg." width="375" height="466" />
+<img src="https://raw.githubusercontent.com/unclever-labs/xphilx/master/xphilx.jpg" width="375" height="466" />
 
 ## Introduction
 
