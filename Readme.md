@@ -4,7 +4,9 @@
 
 ## Introduction
 
-A little agent to exfiltrate layer 7 payloads to S3 from a running server
+A little agent to exfiltrate layer 7 payloads to S3 from a running server.
+
+(Lol, sorry about the dramatic title. Just a cool Golang tool to scrape payloads if you can't update an application's logic itself)
 
 ## Contents
 
