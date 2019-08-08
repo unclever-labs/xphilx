@@ -13,10 +13,6 @@ fi
 
 PROJECT=$(basename $(git rev-parse --show-toplevel))
 VERSION=$(cat version.txt)
-# source .envrc
-
-echo "Running: go test ./..."
-go test ./...
 
 GOARCH=amd64
 
