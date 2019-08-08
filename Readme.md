@@ -21,7 +21,7 @@ A little agent to exfiltrate layer 7 payloads to S3 from a running server.
 The easiest way to install is using `go get`:
 
 ```bash
-go get -u -v github.com/unclever-labs/xphilx
+go get -v github.com/unclever-labs/xphilx
 ```
 
 You can install for OS X using homebrew:
