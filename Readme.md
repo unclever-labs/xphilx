@@ -24,10 +24,17 @@ The easiest way to install is using `go get`:
 go get -u -v github.com/unclever-labs/xphilx
 ```
 
+You can install for OS X using homebrew:
+
+```bash
+brew install unclever-labs/unclever-labs/xphilx
+```
+
 You can also compile binaries yourself using:
 
 ```bash
 ./build.sh
+# Look in directory: bin
 ```
 
 ## How it Works
